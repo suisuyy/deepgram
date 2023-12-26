@@ -5,7 +5,7 @@ const { createClient } = require("@deepgram/sdk");
 const cors = require("cors"); // Add this line
 
 const app = express();
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "/tmp" });
 
 const deepgramApiKey = "f42d2880e073808c439480b1458f53b170b90c37";
 
