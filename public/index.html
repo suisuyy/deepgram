@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice to Text</title>
+  </head>
+  <body>
+    <h1>Voice to Text</h1>
+    <form id="uploadForm" action="" method="POST" enctype="multipart/form-data">
+      <input type="file" accept="audio/*" capture id="audioInput" name="audio" required />
+      <button type="submit">Upload and Transcribe</button>
+      <p id='transcriptText'></p>
+    </form>
+
+    <script>
+      const audioInput = document.getElementById("audioInput");
+      const uploadForm = document.getElementById("uploadForm");
+
+      let TranscribeText='';
+    
+      audioInput.addEventListener("change", () => {
+        const file = audioInput.files[0];
+        if (file) {
+          const audio = new Audio(URL.createObjectURL(file));
+          audio.play();
+    
+          uploadFile(file);
+        }
+      });
+    
+      async function uploadFile(file) {
+        const formData = new FormData();
+        formData.append("audio", file);
+    
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData,
+        });
+    
+        if (response.ok) {
+          const transcriptionObj = await response.json();
+          console.log("Transcription:", transcriptionObj);
+          let transcript=transcriptionObj.results.channels[0].alternatives[0].paragraphs.transcript
+          transcriptText.innerHTML=transcript;
+          return transcript;
+        } else {
+          console.error("Error:", response.status);
+        }
+      }
+    </script>
+    
+  </body>
+</html>
