@@ -18,7 +18,7 @@ app.post("/upload", upload.single("audio"), async (req, res) => {
   const { result, error } = await deepgram.listen.prerecorded.transcribeFile(
     fs.readFileSync(req.file.path),
     {
-      smart_format: true,
+      smart_format: false,
       model: "whisper-large",
       detect_language: true,
     },
