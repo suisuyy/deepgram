@@ -12,7 +12,7 @@ const deepgramApiKey = "f42d2880e073808c439480b1458f53b170b90c37";
 app.use(cors()); // Add this line
 app.use(express.static("public"));
 
-app.post("/upload", upload.single("audio"), async (req, res) => {
+app.post("/", upload.single("audio"), async (req, res) => {
   const deepgram = createClient(deepgramApiKey);
 
   const { result, error } = await deepgram.listen.prerecorded.transcribeFile(
@@ -21,6 +21,7 @@ app.post("/upload", upload.single("audio"), async (req, res) => {
       smart_format: false,
       model: "whisper-large",
       detect_language: true,
+      punctuate: true,
     },
   );
 
