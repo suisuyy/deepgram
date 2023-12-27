@@ -34,7 +34,7 @@
         const formData = new FormData();
         formData.append("audio", file);
     
-        const response = await fetch("/upload", {
+        const response = await fetch("/", {
           method: "POST",
           body: formData,
         });
