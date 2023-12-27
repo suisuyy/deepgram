@@ -7,7 +7,7 @@ let mediaRecorder;
 let audioChunks = [];
 let isRecording = false;
 let silenceAmplitudeThreshold = 8;
-let minSilenceDuration = 1000;
+let minSilenceDuration = 10000;
 let silentStart = Date.now();
 let hasSound = false;
 
@@ -287,6 +287,7 @@ function getSilentTime() {
 }
 
 setInterval(() => {
+  if (isRecording === false) return;
   if (getSilentTime() > minSilenceDuration && hasSound == true) {
     stopRecording();
     startRecording((data) => {

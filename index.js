@@ -18,7 +18,7 @@ app.post("/tts", upload.single("audio"), async (req, res) => {
   const { result, error } = await deepgram.listen.prerecorded.transcribeFile(
     fs.readFileSync(req.file.path),
     {
-      model: "whisper-large",
+      model: "whisper",
       detect_language: true,
     },
   );
