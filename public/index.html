@@ -2,54 +2,159 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Voice to Text</title>
+    <title>Customer AI Chat App</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
+
   <body>
-    <h1>Voice to Text</h1>
-    <form id="uploadForm" action="" method="POST" enctype="multipart/form-data">
-      <input type="file" accept="audio/*" capture id="audioInput" name="audio" required />
-      <button type="submit">Upload and Transcribe</button>
-      <p id='transcriptText'></p>
-    </form>
+    <canvas id="visualizer" width="100" height="100"></canvas>
+    <div id="chat-container">
+      <!-- Button Container -->
+      <div class="button-container">
+        <!-- Buttons -->
 
-    <script>
-      const audioInput = document.getElementById("audioInput");
-      const uploadForm = document.getElementById("uploadForm");
+        <div id="menuContainer" style="display: none">
+          <ol>
+            <li>
+              <button class="editButton" onclick="cloneVoice()">Clone</button>
+            </li>
+            <li>
+              <button class="editButton" onclick="translateText()">
+                translate
+              </button>
+            </li>
+            <li>
+              <button class="editButton" onclick="proofread()">
+                proofread
+              </button>
+            </li>
+            <li>
+              <button class="editButton" onclick="define()">define</button>
+            </li>
+            <li>
+              <button class="editButton" onclick="caculate()">caculate</button>
+            </li>
+            <li>
+              <button class="editButton" onclick="send()">send</button>
+            </li>
+          </ol>
+        </div>
+        <button
+          class="editButton"
+          style="font-size: large"
+          onclick="toggleMenu()"
+        >
+          ☰
+        </button>
+        <button class="editButton" onclick="copyToClipboard()">Copy</button>
+        <button class="editButton" onclick="pasteFromClipboard()">Paste</button>
+        <button class="editButton" onclick="clearTextarea()">Clear</button>
+        <button class="editButton" onclick="undo()">Undo</button>
+        <button class="editButton" onclick="redo()">Redo</button>
+      </div>
+      <textarea
+        type="text"
+        id="user-input"
+        placeholder="Type your message or press and hold voice button to speak"
+      >
+I am an English learner, you are my friend and a native English speaker. You will correct me if I make any English
+mistakes when we talk, and keep it concise, limit it to less than 20 words just like a usual conversation. If you have
+too much to say, you should split it into small parts.
 
-      let TranscribeText='';
-    
-      audioInput.addEventListener("change", () => {
-        const file = audioInput.files[0];
-        if (file) {
-          const audio = new Audio(URL.createObjectURL(file));
-          audio.play();
-    
-          uploadFile(file);
-        }
-      });
-    
-      async function uploadFile(file) {
-        const formData = new FormData();
-        formData.append("audio", file);
-    
-        const response = await fetch("/", {
-          method: "POST",
-          body: formData,
-        });
-    
-        if (response.ok) {
-          const transcriptionObj = await response.json();
-          console.log("Transcription:", transcriptionObj);
-          let transcript=transcriptionObj.results.channels[0].alternatives[0].paragraphs.transcript
-          transcriptText.innerHTML=transcript;
-          return transcript;
-        } else {
-          console.error("Error:", response.status);
-        }
-      }
-    </script>
-    
+Be concise, not speak too much each time. You will correct me if I make any English grammar mistakes when we talk. If I
+don’t speak English, you should answer first in my language then in English. And keep it concise, limit it to less than
+20 words just like a usual conversation. If you have too much to say, you should split it into small parts.
+            
+        </textarea
+      >
+      <button id="voice-button">Voice</button>
+      <button id="record-button">Rec</button>
+      <button id="tts-button">TTS</button>
+      <button id="send-button">Send</button>
+
+      <audio controls id="ttsAudio">
+        Your browser does not support the audio element.
+      </audio>
+
+      <div id="chat-window">
+        <br />
+        <br />
+        you can set api key like this at end of URL,put your api key after
+        api_key=:
+        <br />
+        <br />
+        https://voigptcn.pages.dev/?autotts=yes&ttsSpeed=1.2&ttsModel=tts-1&api_url=https://api.openai.com&api_key=sk-FmX2poxoOEj5F2K6lJy2yT3BlbkFJau31xnZqi95IkFUARZXk
+        <br />
+        <br />
+        change other setting if you need
+      </div>
+
+      <br />
+    </div>
+
+    <div class="debugDiv">
+      <span id="statusSpan"></span>
+    </div>
+
+    <!-- Settings Button -->
+    <button id="settings-button">Settings v1cn</button>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+
+        <h2>Change API Key</h2>
+        <textarea
+          type="text"
+          id="apiKeyInput"
+          placeholder="Enter your API key here"
+        >
+sk-FmX2poxoOEj5F2K6lJy2yT3BlbkFJau31xnZqi95IkFUARZXk</textarea
+        >
+        <h2>Choose Model</h2>
+        <select id="model-selector">
+          <option value="gpt-3.5-turbo-16k">gpt-3.5-turbo-16k</option>
+
+          <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+          <option value="gpt-4">gpt-4</option>
+        </select>
+        <h2>Choose Voice</h2>
+        <form id="voice-form">
+          <label>
+            <input type="radio" name="voice" value="alloy" /> Alloy
+          </label>
+          <label> <input type="radio" name="voice" value="echo" /> Echo </label>
+          <label>
+            <input type="radio" name="voice" value="fable" /> Fable
+          </label>
+          <label> <input type="radio" name="voice" value="onyx" /> Onyx </label>
+          <label> <input type="radio" name="voice" value="nova" /> Nova </label>
+          <label>
+            <input type="radio" name="voice" value="shimmer" checked /> Shimmer
+          </label>
+        </form>
+
+        <button id="save-settings">Save</button>
+      </div>
+    </div>
+    <div id="statusDiv">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Loading_2.gif"
+        alt=""
+      />
+      <div id="api_key_statusdiv"></div>
+    </div>
+
+    <div id="settingsContainer">
+      <!-- Settings will be dynamically added here -->
+    </div>
+
+    <script src="./language.js"></script>
+    <script src="./record.js"></script>
+    <script src="./script.js"></script>
+    <script src="./xtts.js"></script>
+    <script src="./buttonHandler.js"></script>
   </body>
 </html>

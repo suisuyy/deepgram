@@ -1,0 +1,205 @@
+.debugDiv {
+  position: fixed;
+  top: 10%;
+  right: 0;
+  z-index: 100000;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+button {
+  user-select: none;
+  touch-action: none;
+}
+
+#visualizer {
+  width: 10vw;
+  height: 10vw;
+  right: 0;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  display: none;
+}
+
+.button-container {
+  display: flex;
+}
+#menuContainer {
+  position: fixed;
+  top: 100px;
+  background-color: pink;
+}
+
+.editButton {
+  margin: 5px;
+  padding: 3px 5px;
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.editButton:hover {
+  background-color: #4caf50;
+  color: #fff;
+}
+#chat-container {
+  flex-direction: column;
+  height: 100%;
+}
+#ttsAudio {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+#chat-window {
+  width: 95vw;
+  height: 50vh;
+  padding: 0;
+  overflow-y: scroll;
+  border: 0px solid #ccc;
+  margin-bottom: 10px;
+}
+
+#apiKeyInput {
+  width: 80%;
+  height: 3em;
+}
+
+#user-input {
+  width: 90vw;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(171, 229, 255);
+  border-radius: 5px;
+  height: 200px;
+}
+
+#record-button {
+  height: 50px;
+  width: 15vw;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#send-button {
+  height: 50px;
+  width: 15vw;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#tts-button {
+  height: 50px;
+
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 20vw;
+}
+
+#voice-button {
+  height: 50px;
+
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+
+  width: 40vw;
+}
+
+#ttsAudio {
+  width: 95vw;
+}
+
+.message {
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f1f1f1;
+}
+
+/* ... (The rest of your CSS) */
+
+/* Floating button style */
+#settings-button {
+  position: fixed;
+  bottom: 10vh;
+  right: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Modal styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 95%;
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 0%; /* 15% from the top and centered */
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ... (The rest of your CSS) */
+
+#statusDiv {
+  font-size: 0.5em;
+  z-index: -1;
+  position: fixed;
+  bottom: 0%;
+  left: 0;
+}
+
+#statusDiv > img {
+  width: 2em;
+  height: 2em;
+  z-index: -1;
+}
