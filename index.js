@@ -19,7 +19,7 @@ app.post("/", upload.single("audio"), async (req, res) => {
     fs.readFileSync(req.file.path),
     {
       smart_format: false,
-      model: "whisper-large",
+      model: "whisper",
       detect_language: true,
       punctuate: true,
     },
